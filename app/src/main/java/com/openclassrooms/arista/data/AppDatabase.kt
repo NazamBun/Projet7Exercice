@@ -71,6 +71,13 @@ abstract class AppDataBase : RoomDatabase() {
 
                 )
             )
+
+            userDtoDao.insertUser(
+                UserDto(
+                    name = "John Doe",
+                    email = "john.doe@example.com"
+                )
+            )
         }
     }
 }
