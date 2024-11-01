@@ -14,5 +14,8 @@ data class UserDto(
     var name: String,
 
     @ColumnInfo(name = "email")
-    var email: String
+    var email: String,
+
+    @ColumnInfo(name = "password")
+    var password: String
 )
