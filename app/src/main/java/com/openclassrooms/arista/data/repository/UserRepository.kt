@@ -1,15 +1,23 @@
 package com.openclassrooms.arista.data.repository
 
-import com.openclassrooms.arista.data.FakeApiService
+import com.openclassrooms.arista.data.dao.UserDtoDao
 import com.openclassrooms.arista.domain.model.User
+import kotlinx.coroutines.flow.first
 
-class UserRepository(private val apiService: FakeApiService = FakeApiService()) {
+class UserRepository(private val userDao: UserDtoDao) {
 
-    // Get the current user
-    var user: User
-        get() = apiService.user
-        // Set or update the user
-        set(user) {
-            apiService.user = user
-        }
+    suspend fun getUser(): User? {
+        return userDao.getUser()
+            .first()
+            ?.let { User.fromDto(it) }
+    }
+
+    suspend fun insertOrUpdateUser(user: User) {
+        userDao.insertOrUpdateUser(user.toDto())
+    }
+
+    suspend fun deleteUser(user: User) {
+        user.id?.let { userDao.deleteUserById(it) }
+    }
+
 }

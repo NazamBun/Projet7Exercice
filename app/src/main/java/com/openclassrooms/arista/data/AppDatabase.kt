@@ -75,7 +75,8 @@ abstract class AppDataBase : RoomDatabase() {
             userDtoDao.insertUser(
                 UserDto(
                     name = "John Doe",
-                    email = "john.doe@example.com"
+                    email = "john.doe@example.com",
+                    password = "password"
                 )
             )
         }
