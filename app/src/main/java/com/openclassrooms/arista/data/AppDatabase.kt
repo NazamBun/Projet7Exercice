@@ -21,7 +21,7 @@ import java.time.ZoneOffset
     version = 1,
     exportSchema = false
 )
-abstract class AppDataBase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun userDtoDao(): UserDtoDao
     abstract fun exerciseDtoDao(): ExerciseDtoDao
     abstract fun sleepDtoDao(): SleepDtoDao
@@ -41,13 +41,13 @@ abstract class AppDataBase : RoomDatabase() {
 
     companion object {
         @Volatile
-        private var INSTANCE: AppDataBase? = null
+        private var INSTANCE: AppDatabase? = null
 
-        fun getDatabase(context: Context): AppDataBase {
+        fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    AppDataBase::class.java,
+                    AppDatabase::class.java,
                     "app_database"
                 ).build()
                 INSTANCE = instance
@@ -68,14 +68,14 @@ abstract class AppDataBase : RoomDatabase() {
                     startTime =
                     LocalDateTime.now().minusDays(2).atZone(ZoneOffset.UTC).toInstant()
                         .toEpochMilli(), duration = 450, quality = 3
-
                 )
             )
 
-            userDtoDao.insertUser(
+            // Ajouter un utilisateur par défaut
+            userDtoDao.insertOrUpdateUser(
                 UserDto(
-                    name = "John Doe",
-                    email = "john.doe@example.com",
+                    name = "Default User",
+                    email = "default.user@example.com",
                     password = "password"
                 )
             )
