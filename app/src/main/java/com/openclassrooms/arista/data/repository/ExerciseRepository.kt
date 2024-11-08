@@ -1,20 +1,30 @@
 package com.openclassrooms.arista.data.repository
 
 import com.openclassrooms.arista.data.FakeApiService
+import com.openclassrooms.arista.data.dao.ExerciceDtoDao
 import com.openclassrooms.arista.domain.model.Exercise
+import kotlinx.coroutines.flow.first
 
-class ExerciseRepository(private val apiService: FakeApiService = FakeApiService()) {
+//class ExerciseRepository(private val apiService: FakeApiService = FakeApiService()) {
 
-    // Get all exercises
-    val allExercises: List<Exercise> get() = apiService.getAllExercises()
+class ExerciseRepository(private val exerciceDao: ExerciceDtoDao) {
 
-    // Add a new exercise
-    fun addExercise(exercise: Exercise) {
-        apiService.addExercise(exercise)
+
+    suspend fun getAllExercises(): List<Exercise> {
+        return exerciceDao.getAllExercices()
+            .first()
+            .map { Exercise.fromDto(it) }
     }
 
-    // Delete an exercise
-    fun deleteExercise(exercise: Exercise) {
-        apiService.deleteExercise(exercise)
+    suspend fun addExercice(exercice: Exercise) {
+        exerciceDao.insertExercice(exercice.toDto())
+    }
+
+    suspend fun deleteExercice(exercice: Exercise) {
+        exercice.id?.let {
+            exerciceDao.deleteExerciceById(
+                id = exercice.id
+            )
+        }
     }
 }
