@@ -2,6 +2,7 @@ package com.openclassrooms.arista.data.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.openclassrooms.arista.data.entity.SleepDto
 import kotlinx.coroutines.flow.Flow
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface SleepDtoDao {
 
     // Insère un nouveau sommeil dans la table "sleep"
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSleep(sleep: SleepDto): Long
 
     // Récupère tous les sommeils de la table "sleep" sous forme de Flow
