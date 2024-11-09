@@ -2,10 +2,20 @@ package com.openclassrooms.arista.data.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "exercice")
-data class ExerciceDto (
+@Entity(
+    tableName = "exercise",
+    foreignKeys = [
+        ForeignKey(
+            entity = UserDto::class,
+            parentColumns = ["id"],
+            childColumns = ["userId"]
+        )
+    ]
+)
+data class ExerciceDto(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id: Long = 0,
@@ -23,5 +33,8 @@ data class ExerciceDto (
 
 
     @ColumnInfo(name = "intensity")
-    var intensity: Int
+    var intensity: Int,
+
+    @ColumnInfo(index = true)
+    var userId: Long
 )

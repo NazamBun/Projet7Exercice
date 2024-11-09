@@ -44,4 +44,10 @@ class UserRepository(private val userDao: UserDtoDao) {
     suspend fun deleteUser(user: User) {
         userDao.deleteUserById(user.id) // Supprime l'utilisateur en utilisant son ID
     }
+
+    suspend fun getUserById(userId: Long): User? {
+        return userDao.getUserById(userId)
+            .first()
+            ?.let { User.fromDto(it) }
+    }
 }

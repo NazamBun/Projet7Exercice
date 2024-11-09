@@ -34,12 +34,13 @@ data class Sleep(
     /**
      * Convertit un objet Sleep en SleepDto pour la base de données.
      */
-    fun toDto(): SleepDto {
+    fun toDto(userId: Long): SleepDto {
         return SleepDto(
             id = id ?: throw IllegalArgumentException("Sleep Id should not be null"),
             startTime = startTime.toInstant(ZoneOffset.UTC).toEpochMilli(),
             duration = duration,
-            quality = quality
+            quality = quality,
+            userId = userId
         )
     }
 

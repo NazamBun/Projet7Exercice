@@ -18,7 +18,7 @@ import java.time.ZoneOffset
 
 @Database(
     entities = [UserDto::class, SleepDto::class, ExerciceDto::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -37,8 +37,38 @@ abstract class AppDatabase : RoomDatabase() {
                 }
             }
         }
-    }
 
+        suspend fun populateDatabase(sleepDao: SleepDtoDao, userDtoDao: UserDtoDao) {
+
+            // Insert a user
+            val userId = userDtoDao.insertUser(
+                UserDto(
+                    name = "John Doe",
+                    email = "johndoe@example.com",
+                    password = "password123"
+                )
+            )
+
+            // Insert some sleep data
+            sleepDao.insertSleep(
+                SleepDto(
+                    startTime =
+                    LocalDateTime.now().minusDays(1).atZone(ZoneOffset.UTC).toInstant()
+                        .toEpochMilli(), duration = 480, userId = userId, quality = 4
+                )
+            )
+
+            // Insert some sleep data
+            sleepDao.insertSleep(
+                SleepDto(
+                    startTime = LocalDateTime.now().minusDays(2).atZone(ZoneOffset.UTC).toInstant()
+                        .toEpochMilli(), duration = 450, userId = userId, quality = 3
+                )
+            )
+
+
+        }
+    }
 
     companion object {
         @Volatile
@@ -60,33 +90,6 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        suspend fun populateDatabase(sleepDao: SleepDtoDao, userDtoDao: UserDtoDao) {
 
-            // Insert some sleep data
-            sleepDao.insertSleep(
-                SleepDto(
-                    startTime =
-                    LocalDateTime.now().minusDays(1).atZone(ZoneOffset.UTC).toInstant()
-                        .toEpochMilli(), duration = 480, quality = 4
-                )
-            )
-
-            // Insert some sleep data
-            sleepDao.insertSleep(
-                SleepDto(
-                    startTime = LocalDateTime.now().minusDays(2).atZone(ZoneOffset.UTC).toInstant()
-                        .toEpochMilli(), duration = 450, quality = 3
-                )
-            )
-
-            // Insert a user
-            userDtoDao.insertUser(
-                UserDto(
-                    name = "John Doe",
-                    email = "johndoe@example.com",
-                    password = "password123"
-                )
-            )
-        }
     }
 }

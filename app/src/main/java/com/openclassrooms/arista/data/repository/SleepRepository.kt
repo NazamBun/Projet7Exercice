@@ -32,13 +32,19 @@ class SleepRepository(private val sleepDao: SleepDtoDao) {
      *
      * @param sleep L'objet Sleep à insérer.
      */
-    suspend fun addSleep(sleep: Sleep) { // R de CRUD
-        sleepDao.insertSleep(sleep.toDto())// Convertit Sleep en SleepDto avant de l'insérer
+    suspend fun addSleep(sleep: Sleep, userId:Long) { // R de CRUD
+        sleepDao.insertSleep(sleep.toDto(userId))// Convertit Sleep en SleepDto avant de l'insérer
     }
 
     suspend fun deleteSleep(sleep: Sleep) {
         sleep.id?.let {
             sleepDao.deleteSleepById(it) // Supprime le sommeil en utilisant son ID
         }
+    }
+
+    suspend fun getSleepsByUserId(userId: Long): List<Sleep> {
+        return sleepDao.getSleepsByUserId(userId)
+            .first()
+            .map { Sleep.fromDto(it) }
     }
 }

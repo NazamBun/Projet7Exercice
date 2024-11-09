@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.openclassrooms.arista.data.entity.SleepDto
 import com.openclassrooms.arista.data.entity.UserDto
 import kotlinx.coroutines.flow.Flow
 @Dao
@@ -34,5 +35,8 @@ interface UserDtoDao {
      */
     @Query("DELETE FROM user WHERE id = :id")
     suspend fun deleteUserById(id: Long)
+
+    @Query("SELECT * FROM user WHERE id = :id")
+    fun getUserById(id: Long): Flow<UserDto>
 
 }

@@ -21,4 +21,7 @@ interface SleepDtoDao {
     // Supprime un sommeil de la table "sleep" en fonction de son id
     @Query("DELETE FROM sleep WHERE id = :id")
     suspend fun deleteSleepById(id: Long)
+
+    @Query("SELECT * FROM sleep WHERE userId = :id")
+    fun getSleepsByUserId(id: Long): Flow<List<SleepDto>>
 }

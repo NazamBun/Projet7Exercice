@@ -28,11 +28,12 @@ data class Exercise(
         }
     }
 
-    fun toDto()= ExerciceDto (
+    fun toDto(userId: Long)= ExerciceDto (
         id = id ?: throw IllegalArgumentException("Exercise Id should not be null"),
         startTime = startTime.toInstant(ZoneOffset.UTC).toEpochMilli(),
         duration = duration,
         category = category.name,
-        intensity = intensity
+        intensity = intensity,
+        userId = userId
     )
 }

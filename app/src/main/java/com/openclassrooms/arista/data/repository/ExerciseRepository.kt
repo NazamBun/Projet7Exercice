@@ -11,13 +11,21 @@ class ExerciseRepository(private val exerciceDao: ExerciceDtoDao) {
 
 
     suspend fun getAllExercises(): List<Exercise> {
-        return exerciceDao.getAllExercices()
+        return exerciceDao.getAllExercises()
             .first()
             .map { Exercise.fromDto(it) }
     }
 
-    suspend fun addExercice(exercice: Exercise) {
-        exerciceDao.insertExercice(exercice.toDto())
+    suspend fun getExercisesByUserId(userId: Long): List<Exercise> {
+        return exerciceDao.getExercisesByUserId(userId)
+            .first()
+            .map {
+                // ou it.toModel()
+                Exercise.fromDto(it) }
+    }
+
+    suspend fun addExercice(exercice: Exercise, userId: Long) {
+        exerciceDao.insertExercice(exercice.toDto(userId))
     }
 
     suspend fun deleteExercice(exercice: Exercise) {

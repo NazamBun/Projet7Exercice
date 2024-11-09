@@ -2,9 +2,19 @@ package com.openclassrooms.arista.data.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "sleep")
+@Entity(
+    tableName = "sleep",
+    foreignKeys = [
+        ForeignKey(
+            entity = UserDto::class,
+            parentColumns = ["id"],
+            childColumns = ["userId"]
+        )
+    ]
+)
 data class SleepDto (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -17,5 +27,8 @@ data class SleepDto (
     var duration: Int,
 
     @ColumnInfo(name = "quality")
-    var quality: Int
+    var quality: Int,
+
+    @ColumnInfo(index = true)
+    var userId: Long
 )
