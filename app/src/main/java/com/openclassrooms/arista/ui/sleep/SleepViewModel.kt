@@ -25,7 +25,7 @@ class SleepViewModel @Inject constructor(private val getAllSleepsUseCase: GetAll
         fetchSleeps() // Charge les données de sommeil dès l'initialisation
     }
 
-    private fun fetchSleeps() {
+    fun fetchSleeps() {
         viewModelScope.launch(Dispatchers.IO) {
             val sleepList = getAllSleepsUseCase.execute()
             _sleeps.value = sleepList // Met à jour le flux pour notifier l'UI
