@@ -4,8 +4,14 @@ import com.openclassrooms.arista.data.repository.ExerciseRepository
 import com.openclassrooms.arista.domain.model.Exercise
 import javax.inject.Inject
 
+//class GetAllExercisesUseCase @Inject constructor(private val exerciseRepository: ExerciseRepository) {
+//    fun execute(): List<Exercise> {
+//        return exerciseRepository.allExercises
+//    }
+//}
+
 class GetAllExercisesUseCase @Inject constructor(private val exerciseRepository: ExerciseRepository) {
-    fun execute(): List<Exercise> {
-        return exerciseRepository.allExercises
+    suspend fun execute(): List<Exercise> {
+        return exerciseRepository.getAllExercises()
     }
 }
