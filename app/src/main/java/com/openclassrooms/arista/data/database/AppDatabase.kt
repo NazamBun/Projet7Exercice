@@ -45,14 +45,16 @@ abstract class AppDatabase : RoomDatabase() {
         private var INSTANCE: AppDatabase? = null
 
 
-        fun getDatabase(context: Context): AppDatabase {
+        fun getDatabase(context: Context, coroutineScope: CoroutineScope): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 // Create database here
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "app_database"
-                ).build()
+                    "AristaDB"
+                )
+                    .addCallback(AppDatabaseCallback(coroutineScope))
+                    .build()
                 INSTANCE = instance
                 instance
             }
