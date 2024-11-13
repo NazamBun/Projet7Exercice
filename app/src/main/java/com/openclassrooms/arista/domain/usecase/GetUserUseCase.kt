@@ -13,7 +13,7 @@ import javax.inject.Inject
 /**
  * Use case pour obtenir les données utilisateur.
  */
-class GetUserUsecase @Inject constructor(private val userRepository: UserRepository) {
+class GetUserUseCase @Inject constructor(private val userRepository: UserRepository) {
     /**
      * Exécute la récupération des données utilisateur de manière asynchrone.
      *
