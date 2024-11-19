@@ -16,7 +16,7 @@ class AddNewExerciseUseCase @Inject constructor(private val exerciseRepository: 
      *
      * @param exercise L'exercice à ajouter.
      */
-    suspend fun execute(exercise: Exercise) {
-        exerciseRepository.addExercice(exercise)
+    suspend fun execute(exercise: Exercise, userId: Long) {
+        exerciseRepository.addExercice(exercise,userId)
     }
 }

@@ -18,7 +18,7 @@ import java.time.ZoneOffset
 
 @Database(
     entities = [UserDto::class, SleepDto::class, ExerciceDto::class],
-    version = 2,
+    version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -65,8 +65,6 @@ abstract class AppDatabase : RoomDatabase() {
                         .toEpochMilli(), duration = 450, userId = userId, quality = 3
                 )
             )
-
-
         }
     }
 
@@ -89,7 +87,5 @@ abstract class AppDatabase : RoomDatabase() {
                 instance
             }
         }
-
-
     }
 }

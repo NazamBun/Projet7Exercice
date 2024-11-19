@@ -15,13 +15,13 @@ interface ExerciceDtoDao {
     suspend fun insertExercice(exercice: ExerciceDto): Long
 
     // Récupère tous les exercices de la table "exercice" sous forme de Flow
-    @Query("SELECT * FROM exercice")
+    @Query("SELECT * FROM exercise")
     fun getAllExercises(): Flow<List<ExerciceDto>>
 
     // Supprime un exercice de la table "exercice" en fonction de son id
-    @Query("DELETE FROM exercice WHERE id = :id")
+    @Query("DELETE FROM exercise WHERE id = :id")
     suspend fun deleteExerciceById(id: Long)
 
-    @Query("SELECT * FROM exercice WHERE userId = :id")
+    @Query("SELECT * FROM exercise WHERE userId = :id")
     fun getExercisesByUserId(id: Long): Flow<List<ExerciceDto>>
 }

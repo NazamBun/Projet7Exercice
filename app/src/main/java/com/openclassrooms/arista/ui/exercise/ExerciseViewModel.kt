@@ -2,6 +2,7 @@ package com.openclassrooms.arista.ui.exercise
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.openclassrooms.arista.MainApplication
 import com.openclassrooms.arista.domain.model.Exercise
 import com.openclassrooms.arista.domain.usecase.AddNewExerciseUseCase
 import com.openclassrooms.arista.domain.usecase.DeleteExerciseUseCase
@@ -25,6 +26,9 @@ class ExerciseViewModel @Inject constructor(
     private val _exercisesFlow = MutableStateFlow<List<Exercise>>(emptyList())
     val exercisesFlow: StateFlow<List<Exercise>> = _exercisesFlow.asStateFlow()
 
+    private val _errorFlow = MutableStateFlow<String?>(null)
+    val errorFlow: StateFlow<String?> get() = _errorFlow
+
     init {
         loadAllExercises()
     }
@@ -36,9 +40,13 @@ class ExerciseViewModel @Inject constructor(
      * @param exercise L'exercice à supprimer.
      */
     fun deleteExercise(exercise: Exercise) {
-        viewModelScope.launch(Dispatchers.IO) {
-            deleteExerciseUseCase.execute(exercise)
-            loadAllExercises()
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                deleteExerciseUseCase.execute(exercise)
+                loadAllExercises()
+            }
+        } catch (e: Exception) {
+            _errorFlow.value = e.message
         }
     }
 
@@ -48,8 +56,12 @@ class ExerciseViewModel @Inject constructor(
      */
     private fun loadAllExercises() {
         viewModelScope.launch(Dispatchers.IO) {
-            val exercises = getAllExercisesUseCase.execute()
-            _exercisesFlow.value = exercises
+            try {
+                val exercises = getAllExercisesUseCase.execute()
+                _exercisesFlow.value = exercises
+            } catch (e: Exception) {
+                _errorFlow.value = e.message
+            }
         }
     }
 
@@ -61,8 +73,12 @@ class ExerciseViewModel @Inject constructor(
      */
     fun addNewExercise(exercise: Exercise) {
         viewModelScope.launch(Dispatchers.IO) {
-            addNewExerciseUseCase.execute(exercise)
-            loadAllExercises()
+            try {
+                addNewExerciseUseCase.execute(exercise, MainApplication.USER_ID)
+                loadAllExercises()
+            } catch (e: Exception) {
+                _errorFlow.value = e.message
+            }
         }
     }
 }
