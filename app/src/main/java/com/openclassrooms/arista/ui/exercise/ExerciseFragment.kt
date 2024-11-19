@@ -110,9 +110,11 @@ class ExerciseFragment : Fragment(), DeleteExerciseInterface {
         val intensity = intensityStr.toInt()
         val category = categorySpinner.selectedItem as ExerciseCategory
 
+        val userId: Long = getUserId()
+
         val newExercise =
             Exercise(System.currentTimeMillis(), LocalDateTime.now(), duration, category, intensity)
-        viewModel.addNewExercise(newExercise)
+        viewModel.addNewExercise(newExercise, userId)
     }
 
     private fun validateDuration(duration: String): Boolean {
@@ -151,6 +153,9 @@ class ExerciseFragment : Fragment(), DeleteExerciseInterface {
         }
     }
 
+    private fun getUserId(): Long {
+        return 1L
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
