@@ -7,6 +7,7 @@ import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
@@ -33,7 +34,7 @@ class GetUserUseCaseTest {
         getUserUseCase = GetUserUseCase(userRepository)
     }
 
-    @After
+    @Test
     fun `when repository returns a user, use case should return the same user`() = runBlocking {
         // Arrange
         val fakeUser = User(id = 1, name = "John Doe", email = "johndoe@example.com", password = "password123")

@@ -71,7 +71,7 @@ class ExerciseViewModel @Inject constructor(
      *
      * @param exercise L'exercice à ajouter.
      */
-    fun addNewExercise(exercise: Exercise) {
+    fun addNewExercise(exercise: Exercise, userId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 addNewExerciseUseCase.execute(exercise, MainApplication.USER_ID)
